@@ -1,14 +1,14 @@
 FROM ubuntu:20.04
 
-# setup workdir
+# Setup workdir
 RUN mkdir /osticket
 WORKDIR /osticket
 
-# environment for osticket and apt
+# Environment
 ENV DEBIAN_FRONTEND noninteractive
 ENV HOME /osticket
 
-# requirements
+# Install required packages
 RUN apt-get update -yqq \
   && apt-get install -yqq \
   git \
@@ -28,7 +28,7 @@ RUN apt-get update -yqq \
   && apt-get clean -yqq
 
 
-# # osticket
+# Clone osTicket
 RUN git clone https://github.com/osTicket/osTicket .
 RUN cp /osticket/include/ost-sampleconfig.php /osticket/include/ost-config.php
 RUN chown www-data:www-data -R /osticket/
@@ -41,7 +41,7 @@ RUN chown www-data:www-data -R /osticket/
 # RUN sed -i -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g" /etc/php5/fpm/pool.d/www.conf
 # RUN php5enmod imap
 
-# add nginx virtualhost
+# Copy nginx config and supervisord config
 COPY nginx.conf /etc/nginx/sites-available/default
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
