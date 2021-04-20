@@ -45,5 +45,8 @@ RUN chown www-data:www-data -R /osticket/
 COPY nginx.conf /etc/nginx/sites-available/default
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+VOLUME /osticket
 EXPOSE 80
+
+
 CMD ["/usr/bin/supervisord"]
