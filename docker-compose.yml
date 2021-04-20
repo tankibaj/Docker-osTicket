@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+
+  app:
+    build: .
+    image: osticket
+    container_name: osticket-app
+    ports:
+      - 80:80
+    networks:
+      osticket-network:
+    restart: always
+
+  database:
+    image: mariadb
+    container_name: osticket-database
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=123123
+      - MYSQL_DATABASE=osticket
+    networks:
+      osticket-network:
+    restart: always
+
+
+networks:
+  osticket-network:
+    driver: bridge
